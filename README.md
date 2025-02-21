@@ -6,7 +6,7 @@ A source generator to help with modding The Long Dark.
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="ds5678.Modding.TLD.SourceGenerator" Version="1.0.0">
+	<PackageReference Include="ds5678.Modding.TLD.SourceGenerator" Version="1.0.1">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
