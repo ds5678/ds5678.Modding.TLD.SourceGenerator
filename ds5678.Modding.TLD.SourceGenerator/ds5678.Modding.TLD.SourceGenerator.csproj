@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>Latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<RootNamespace>SourceGenerator</RootNamespace>
+
+		<Version>1.0.0</Version>
+		<Copyright>Copyright © ds5678</Copyright>
+		<Authors>ds5678</Authors>
+		<RepositoryUrl>https://github.com/ds5678/ds5678.Modding.TLD.SourceGenerator</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+
+		<PackageId>ds5678.Modding.TLD.SourceGenerator</PackageId>
+		<PackageTags>C# Modding TLD</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+		<Description>Source generator to make modding TLD easier.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+		<PackageReference Include="SourceGenerator.Foundations" Version="2.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Package the generator in the analyzer directory of the nuget package -->
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+		<!-- Package the props file -->
+		<None Include="TheLongDarkModdingSourceGenerator.props" Pack="true" PackagePath="build" Visible="true" />
+	</ItemGroup>
+
+</Project>

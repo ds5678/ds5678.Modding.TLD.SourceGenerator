@@ -1,0 +1,6 @@
+﻿<Project>
+	<ItemGroup>
+		<CompilerVisibleProperty Include="Version" />
+		<CompilerVisibleProperty Include="Authors" />
+	</ItemGroup>
+</Project>
