@@ -63,7 +63,7 @@ public sealed class ModAnnotationGenerator : IncrementalGenerator
 		const string AttributeText = $$"""
 			namespace {{AttributeNamespace}}
 			{
-				//[global::Microsoft.CodeAnalysis.Embedded]
+				[global::Microsoft.CodeAnalysis.Embedded]
 				[global::System.AttributeUsage(global::System.AttributeTargets.Class)]
 				internal sealed class {{AttributeName}} : global::System.Attribute
 				{
@@ -75,8 +75,7 @@ public sealed class ModAnnotationGenerator : IncrementalGenerator
 			""";
 		context.AddSource($"{AttributeName}.g.cs", AttributeText);
 
-		//context.AddEmbeddedAttributeDefinition(); //To do: this api isn't available yet
-		//https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md#put-microsoftcodeanalysisembeddedattribute-on-generated-marker-types
+		context.AddEmbeddedAttributeDefinition();
 	}
 
 	private static void AnnotateModClass(SgfSourceProductionContext context, (string Namespace, string Name, string Version, string Author, string? AssemblyName) data)
