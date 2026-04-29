@@ -1,22 +1,17 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SGF;
 
 namespace SourceGenerator;
 
-[IncrementalGenerator]
-public sealed class ModAnnotationGenerator : IncrementalGenerator
+[Generator]
+public sealed class ModAnnotationGenerator : IIncrementalGenerator
 {
 	public const string AttributeNamespace = "TheLongDarkMods";
 	public const string AttributeName = "ModClassAttribute";
 	const string AttributeFullName = AttributeNamespace + "." + AttributeName;
 
-	public ModAnnotationGenerator() : base(nameof(ModAnnotationGenerator))
-	{
-	}
-
-	public override void OnInitialize(SgfInitializationContext context)
+	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		context.RegisterPostInitializationOutput(AddAttribute);
 		IncrementalValuesProvider<(string Namespace, string Name)> classProvider = context.SyntaxProvider.ForAttributeWithMetadataName(AttributeFullName, (syntaxNode, cancellationToken) =>
@@ -48,7 +43,7 @@ public sealed class ModAnnotationGenerator : IncrementalGenerator
 			return (version!, author!);
 		});
 
-		var assemblyNameProvider = context.CompilationProvider.Select((c, ct) => c.AssemblyName);
+		IncrementalValueProvider<string?> assemblyNameProvider = context.CompilationProvider.Select((c, ct) => c.AssemblyName);
 
 		IncrementalValuesProvider<(string Namespace, string Name, string Version, string Author, string? AssemblyName)> combinedProvider = classProvider
 			.Combine(versionProvider)
@@ -78,7 +73,7 @@ public sealed class ModAnnotationGenerator : IncrementalGenerator
 		context.AddEmbeddedAttributeDefinition();
 	}
 
-	private static void AnnotateModClass(SgfSourceProductionContext context, (string Namespace, string Name, string Version, string Author, string? AssemblyName) data)
+	private static void AnnotateModClass(SourceProductionContext context, (string Namespace, string Name, string Version, string Author, string? AssemblyName) data)
 	{
 		string text = $$"""
 			// This registers the mod with MelonLoader.
